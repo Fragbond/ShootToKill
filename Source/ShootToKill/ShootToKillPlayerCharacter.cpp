@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "HealthComponent.h"
 
 // Sets default values
 AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
@@ -24,7 +25,7 @@ AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
 void AShootToKillPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	// Add input mapping context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -78,4 +79,22 @@ void AShootToKillPlayerCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+const float AShootToKillPlayerCharacter::GetPlayersCurrentHealth() const
+{
+	if (HealthComponent)
+	{
+		return HealthComponent->GetPlayerCurrentHealth();
+	}
+	return 0.0f;
+}
+
+const bool AShootToKillPlayerCharacter::IsAlive() const
+{
+	if (HealthComponent)
+	{
+		return !HealthComponent->IsDead();
+	}
+	return false;
 }

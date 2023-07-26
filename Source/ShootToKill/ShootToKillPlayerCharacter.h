@@ -8,6 +8,8 @@
 #include "ShootToKillPlayerCharacter.generated.h"
 
 class UCameraComponent;
+class UDamageHandlerComponent;
+class UHealthComponent;
 
 UCLASS()
 class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
@@ -34,19 +36,35 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
+	//UPROPERTY(EditAnywhere)
+	//UDamageHandlerComponent* DamageHandlerComponent;
+
+	UFUNCTION(BlueprintCallable)
+	const bool IsAlive() const;
+
+	UFUNCTION(BlueprintCallable)
+	const float GetPlayersCurrentHealth() const;
+
 public:
 	// Sets default values for this character's properties
 	AShootToKillPlayerCharacter();
 
 	UCameraComponent* GetPlayerCharacterCameraComponent() const { return PlayerCameraComponent; }
 
+	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Adds movement input
 	void Move(const FInputActionValue& Value);
 
+	// Adds look input
 	void Look(const FInputActionValue& Value);
+
+	UPROPERTY(EditAnywhere)
+	UHealthComponent* HealthComponent;
 
 public:	
 	// Called every frame
