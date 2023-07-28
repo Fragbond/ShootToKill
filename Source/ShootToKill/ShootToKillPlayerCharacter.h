@@ -10,6 +10,9 @@
 class UCameraComponent;
 class UDamageHandlerComponent;
 class UHealthComponent;
+class UInputComponent;
+class UAnimMontage;
+class USoundBase;
 
 UCLASS()
 class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
@@ -28,13 +31,12 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
-	// Look input
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
-
 	// Jump input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
+
+	UPROPERTY(EditAnywhere)
+	UHealthComponent* HealthComponent;
 
 	//UPROPERTY(EditAnywhere)
 	//UDamageHandlerComponent* DamageHandlerComponent;
@@ -53,6 +55,19 @@ public:
 
 	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	// Look input
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* LookAction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool bHasRifle;
+
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+	void SetHasRifle(bool bNewHasRifle);
+
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+	bool GetHasRifle();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,9 +77,6 @@ protected:
 
 	// Adds look input
 	void Look(const FInputActionValue& Value);
-
-	UPROPERTY(EditAnywhere)
-	UHealthComponent* HealthComponent;
 
 public:	
 	// Called every frame

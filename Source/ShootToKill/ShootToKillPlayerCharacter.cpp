@@ -98,3 +98,13 @@ const bool AShootToKillPlayerCharacter::IsAlive() const
 	}
 	return false;
 }
+
+void AShootToKillPlayerCharacter::SetHasRifle(bool bNewHasRifle)
+{
+	bHasRifle = bNewHasRifle;
+}
+
+bool AShootToKillPlayerCharacter::GetHasRifle()
+{
+	return bHasRifle;
+}
