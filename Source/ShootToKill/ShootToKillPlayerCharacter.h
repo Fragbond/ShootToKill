@@ -13,6 +13,7 @@ class UHealthComponent;
 class UInputComponent;
 class UAnimMontage;
 class USoundBase;
+class USkeletalMeshComponent;
 
 UCLASS()
 class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
@@ -22,6 +23,9 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	// Adds player camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCameraComponent;
+
+	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	//USkeletalMeshComponent* Mesh;
 
 	// Input mapping context
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -79,10 +83,8 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	USkeletalMeshComponent* GetMesh() const { return Mesh; }
 };

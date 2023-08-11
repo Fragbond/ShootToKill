@@ -17,7 +17,7 @@ AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	PlayerCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	PlayerCameraComponent->SetupAttachment(GetCapsuleComponent());
+	PlayerCameraComponent->SetupAttachment(GetMesh());
 	PlayerCameraComponent->bUsePawnControlRotation = true;
 }
 
@@ -34,13 +34,6 @@ void AShootToKillPlayerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-}
-
-// Called every frame
-void AShootToKillPlayerCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
