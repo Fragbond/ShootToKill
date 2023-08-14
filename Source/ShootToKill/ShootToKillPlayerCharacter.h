@@ -42,6 +42,7 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere)
 	UHealthComponent* HealthComponent;
 
+	// Creates damage handler NOTE: still needs to be added
 	//UPROPERTY(EditAnywhere)
 	//UDamageHandlerComponent* DamageHandlerComponent;
 
@@ -57,6 +58,7 @@ public:
 
 	UCameraComponent* GetPlayerCharacterCameraComponent() const { return PlayerCameraComponent; }
 
+	// Take damage component NOTE: still needs to be added
 	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	// Look input
