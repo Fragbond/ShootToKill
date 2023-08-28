@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "HealthComponent.h"
+#include "DamageComponent.h"
 
 // Sets default values
 AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
@@ -19,6 +20,9 @@ AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
 	PlayerCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	PlayerCameraComponent->SetupAttachment(GetMesh());
 	PlayerCameraComponent->bUsePawnControlRotation = true;
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+	DamageComponent = CreateDefaultSubobject<UDamageComponent>(TEXT("DamageComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -100,4 +104,47 @@ void AShootToKillPlayerCharacter::SetHasRifle(bool bNewHasRifle)
 bool AShootToKillPlayerCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void AShootToKillPlayerCharacter::SetDamage(float BaseDamage)
+{
+	if (DamageComponent)
+	{
+		DamageComponent->TakeDamage(BaseDamage);
+	}
+}
+
+float AShootToKillPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	UE_LOG(LogTemp, Warning, TEXT("AShootToKillPlayerCharacter::TakeDamage %.2f"), Damage);
+	if (HealthComponent && !HealthComponent->IsDead())
+	{
+		HealthComponent->TakeDamage(Damage);
+		if (HealthComponent->IsDead())
+		{
+			OnDeath(false);
+		}
+	}
+	return Damage;
+}
+
+void AShootToKillPlayerCharacter::OnDeath(bool IsFellOut)
+{
+	// Need to add death timer function and death timer finish function.
+	GetWorld()->GetTimerManager().SetTimer(RestartLevelTimerHandle, this, &AShootToKillPlayerCharacter::OnDeathTimerFinished, TimeRestartLevelAfterDeath, false);
+}
+
+void AShootToKillPlayerCharacter::OnDeathTimerFinished()
+{
+	APlayerController* PlayerController = GetController<APlayerController>();
+	if (PlayerController)
+	{
+		PlayerController->RestartLevel();
+	}
+}
+
+void AShootToKillPlayerCharacter::PickupRifeAmmo()
+{
+	RifeAmmo = RifeAmmo + 10;
 }

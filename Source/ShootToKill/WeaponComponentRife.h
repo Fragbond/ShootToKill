@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "WeaponComponent.generated.h"
+#include "WeaponComponentRife.generated.h"
 
 class AShootToKillPlayerCharacter;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class SHOOTTOKILL_API UWeaponComponent : public USkeletalMeshComponent
+class SHOOTTOKILL_API UWeaponComponentRife : public USkeletalMeshComponent
 {
 	GENERATED_BODY()
 	
@@ -24,13 +24,7 @@ public:
 
 	// Makes the gun fire
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void SemiAutoFire();
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void FullAutoFire();
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void StopFullAutoFire();
+	void Fire();
 
 	// Gets guns muzzle location from the characters location
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
@@ -46,20 +40,14 @@ public:
 
 	// Adds Semi-Auto fire input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivate = "true"))
-	class UInputAction* SemiAutoFireAction;
+	class UInputAction* FireAction;
 
-	// Adds Full-Auto fire input
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivate = "true"))
-	class UInputAction* FullAutoFireAction;
-
-	UWeaponComponent();
+	UWeaponComponentRife();
 
 private:
 
 	// The character holding the weapon
 	AShootToKillPlayerCharacter* PlayerCharacter;
-
-	bool IsBeingHolded = false;
 
 protected:
 	// Ends gameplay for this component

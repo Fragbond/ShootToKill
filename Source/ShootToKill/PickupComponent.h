@@ -5,12 +5,12 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "ShootToKillPlayerCharacter.h"
-#include "PickupWeaponComponent.generated.h"
+#include "PickupComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickUp, AShootToKillPlayerCharacter*, PickupCharacter);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class SHOOTTOKILL_API UPickupWeaponComponent : public USphereComponent
+class SHOOTTOKILL_API UPickupComponent : public USphereComponent
 {
 	GENERATED_BODY()
 	
@@ -19,7 +19,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnPickUp OnPickup;
 
-	UPickupWeaponComponent();
+	UPickupComponent();
 protected:
 
 	virtual void BeginPlay() override;

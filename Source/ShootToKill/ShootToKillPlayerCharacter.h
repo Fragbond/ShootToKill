@@ -8,7 +8,7 @@
 #include "ShootToKillPlayerCharacter.generated.h"
 
 class UCameraComponent;
-class UDamageHandlerComponent;
+class UDamageComponent;
 class UHealthComponent;
 class UInputComponent;
 class UAnimMontage;
@@ -23,9 +23,6 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	// Adds player camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCameraComponent;
-
-	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	//USkeletalMeshComponent* Mesh;
 
 	// Input mapping context
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -42,9 +39,9 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere)
 	UHealthComponent* HealthComponent;
 
-	// Creates damage handler NOTE: still needs to be added
-	//UPROPERTY(EditAnywhere)
-	//UDamageHandlerComponent* DamageHandlerComponent;
+	// Creates damage handler
+	UPROPERTY(EditAnywhere)
+	UDamageComponent* DamageComponent;
 
 	UFUNCTION(BlueprintCallable)
 	const bool IsAlive() const;
@@ -58,8 +55,8 @@ public:
 
 	UCameraComponent* GetPlayerCharacterCameraComponent() const { return PlayerCameraComponent; }
 
-	// Take damage component NOTE: still needs to be added
-	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	// Take damage component
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	// Look input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -74,9 +71,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
 
+	UPROPERTY(EditAnywhere)
+	UParticleSystemComponent* ParticleSystemComponent;
+
+	UFUNCTION(BlueprintCallable, Category = "ShootToKill")
+	void SetDamage(float BaseDamage);
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	void PickupRifeAmmo();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void OnDeath(bool IsFellOut);
 
 	// Adds movement input
 	void Move(const FInputActionValue& Value);
@@ -84,9 +92,19 @@ protected:
 	// Adds look input
 	void Look(const FInputActionValue& Value);
 
+	FTimerHandle RestartLevelTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	float TimeRestartLevelAfterDeath = 2.0f;
+
+	UFUNCTION()
+	void OnDeathTimerFinished();
+
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	int RifeAmmo;
 
 	USkeletalMeshComponent* GetMesh() const { return Mesh; }
 };

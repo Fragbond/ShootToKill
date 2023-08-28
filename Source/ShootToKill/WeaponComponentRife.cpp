@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "WeaponComponent.h"
+#include "WeaponComponentRife.h"
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillProjectile.h"
 #include "Kismet/GameplayStatics.h"
@@ -9,13 +9,13 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
-UWeaponComponent::UWeaponComponent()
+UWeaponComponentRife::UWeaponComponentRife()
 {
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 }
 
-void UWeaponComponent::AttachWeapon(AShootToKillPlayerCharacter* TargetCharacter)
+void UWeaponComponentRife::AttachWeapon(AShootToKillPlayerCharacter* TargetCharacter)
 {
 	PlayerCharacter = TargetCharacter;
 
@@ -40,55 +40,20 @@ void UWeaponComponent::AttachWeapon(AShootToKillPlayerCharacter* TargetCharacter
 
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
-			EnhancedInputComponent->BindAction(SemiAutoFireAction, ETriggerEvent::Triggered, this, &UWeaponComponent::SemiAutoFire);
-
-			EnhancedInputComponent->BindAction(FullAutoFireAction, ETriggerEvent::Triggered, this, &UWeaponComponent::FullAutoFire);
-			EnhancedInputComponent->BindAction(FullAutoFireAction, ETriggerEvent::Completed, this, &UWeaponComponent::StopFullAutoFire);
+			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UWeaponComponentRife::Fire);
 		}
 	}
 }
 
-void UWeaponComponent::SemiAutoFire()
+void UWeaponComponentRife::Fire()
 {
-	if (PlayerCharacter == nullptr || PlayerCharacter->GetController() == nullptr)
+	if (PlayerCharacter->RifeAmmo > 0)
 	{
-		return;
-	}
-
-	if (ProjectileClass != nullptr)
-	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
+		if (PlayerCharacter == nullptr || PlayerCharacter->GetController() == nullptr)
 		{
-			APlayerController* PlayerController = Cast<APlayerController>(PlayerCharacter->GetController());
-			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			World->SpawnActor<AShootToKillProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			return;
 		}
-	}
 
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, PlayerCharacter->GetActorLocation());
-	}
-}
-
-void UWeaponComponent::FullAutoFire()
-{
-	IsBeingHolded = true;
-	int i = 0;
-	if (PlayerCharacter == nullptr || PlayerCharacter->GetController() == nullptr)
-	{
-		return;
-	}
-
-	while (i < 3)
-	{
 		if (ProjectileClass != nullptr)
 		{
 			UWorld* const World = GetWorld();
@@ -108,20 +73,18 @@ void UWeaponComponent::FullAutoFire()
 
 		if (FireSound != nullptr)
 		{
-			//IsBeingHolded = false;
 			UGameplayStatics::PlaySoundAtLocation(this, FireSound, PlayerCharacter->GetActorLocation());
 		}
-		i++;
+
+		PlayerCharacter->RifeAmmo--;
 	}
-	i = 0;
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Your out of ammo."));
+	}
 }
 
-void UWeaponComponent::StopFullAutoFire()
-{
-	IsBeingHolded = false;
-}
-
-void UWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void UWeaponComponentRife::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (PlayerCharacter == nullptr)
 	{

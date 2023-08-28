@@ -2,15 +2,17 @@
 
 
 #include "DamageComponent.h"
+#include "ShootToKillPlayerCharacter.h"
+#include "GameFramework/DamageType.h"
+#include "Misc/ScopeLock.h"
+#include "Particles/ParticleSystemComponent.h" 
+#include "Engine/DamageEvents.h"
 
 // Sets default values for this component's properties
-UDamageComponent::UDamageComponent()
+UDamageComponent::UDamageComponent(const FObjectInitializer& ObjectInitializer)
+	:Super(ObjectInitializer)
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -19,7 +21,7 @@ void UDamageComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	PlayerCharacter = Cast<AShootToKillPlayerCharacter>(GetOwner());
 	
 }
 
@@ -29,6 +31,55 @@ void UDamageComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (PlayerCharacter)
+	{
+		FScopeLock Lock(&CriticalSection);
+		if (ActiveDamageInfo.IsSet())
+		{
+			if (ActiveDamageInfo.GetValue().AccumulatedTime > ActiveDamageInfo.GetValue().Lifetime)
+			{
+				if (PlayerCharacter->ParticleSystemComponent)
+				{
+					PlayerCharacter->ParticleSystemComponent->Deactivate();
+					//PlayerCharacter->ParticleSystemComponent->SetTemplate();
+				}
+				ActiveDamageInfo.Reset();
+			}
+			else
+			{
+				ActiveDamageInfo.GetValue().AccumulatedTime += DeltaTime;
+				ActiveDamageInfo.GetValue().CurrentIntervalTime += DeltaTime;
+				if (ActiveDamageInfo.GetValue().CurrentIntervalTime > ActiveDamageInfo.GetValue().IntervalTime)
+				{
+					float ModifiedDamage = ActiveDamageInfo.GetValue().BaseDamage / (ActiveDamageInfo.GetValue().Lifetime / ActiveDamageInfo.GetValue().IntervalTime);
+					TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+					FDamageEvent DamageEvent(ValidDamageTypeClass);
+					PlayerCharacter->TakeDamage(ModifiedDamage, DamageEvent, nullptr, GetOwner());
+					ActiveDamageInfo.GetValue().CurrentIntervalTime = 0.0f;
+				}
+			}
+		}
+	}
 }
 
+void UDamageComponent::TakeDamage(float BaseDamage)
+{
+	FScopeLock Lock(&CriticalSection);
+	if (ActiveDamageInfo.IsSet())
+	{
+		ActiveDamageInfo.GetValue().BaseDamage = FMath::Max(ActiveDamageInfo.GetValue().BaseDamage, BaseDamage);
+
+		//if (ActiveDamageInfo.GetValue().Lifetime < DamageTotalTime)
+		//{
+		//	ActiveDamageInfo.GetValue().Lifetime = DamageTotalTime;
+		//	ActiveDamageInfo.GetValue().IntervalTime = ActiveDamageInfo.GetValue().IntervalTime;
+		//}
+	}
+	else
+	{
+		ActiveDamageInfo.Emplace();
+		ActiveDamageInfo.GetValue().BaseDamage = BaseDamage;
+		//ActiveDamageInfo.GetValue().IntervalTime = TakeDamageInterval;
+		//ActiveDamageInfo.GetValue().Lifetime = DamageTotalTime;
+	}
+}
