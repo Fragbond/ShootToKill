@@ -8,6 +8,8 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class AShootToKillPlayerCharacter;
+class AShootToKillEnemyCharacter;
 
 UCLASS(config=Game)
 class SHOOTTOKILL_API AShootToKillProjectile : public AActor
@@ -35,4 +37,6 @@ public:
 
 	// Returns Projectile movement component
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+protected:
 };

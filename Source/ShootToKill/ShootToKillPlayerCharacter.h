@@ -36,27 +36,14 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
-	UPROPERTY(EditAnywhere)
-	UHealthComponent* HealthComponent;
-
-	// Creates damage handler
-	UPROPERTY(EditAnywhere)
-	UDamageComponent* DamageComponent;
-
 	UFUNCTION(BlueprintCallable)
-	const bool IsAlive() const;
-
-	UFUNCTION(BlueprintCallable)
-	const float GetPlayersCurrentHealth() const;
+	void IsAlive();
 
 public:
 	// Sets default values for this character's properties
 	AShootToKillPlayerCharacter();
 
 	UCameraComponent* GetPlayerCharacterCameraComponent() const { return PlayerCameraComponent; }
-
-	// Take damage component
-	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	// Look input
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -74,12 +61,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* ParticleSystemComponent;
 
-	UFUNCTION(BlueprintCallable, Category = "ShootToKill")
-	void SetDamage(float BaseDamage);
-
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	void PickupRifeAmmo();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -105,6 +88,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	int RifeAmmo;
+
+	int Hitpoints = 100;
 
 	USkeletalMeshComponent* GetMesh() const { return Mesh; }
 };

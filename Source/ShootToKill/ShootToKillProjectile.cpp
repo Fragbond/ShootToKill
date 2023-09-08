@@ -4,6 +4,8 @@
 #include "ShootToKillProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "ShootToKillPlayerCharacter.h"
+#include "ShootToKillEnemyCharacter.h"
 
 // Sets default values
 AShootToKillProjectile::AShootToKillProjectile()
@@ -13,6 +15,10 @@ AShootToKillProjectile::AShootToKillProjectile()
     CollisionComp->InitSphereRadius(5.0f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
     CollisionComp->OnComponentHit.AddDynamic(this, &AShootToKillProjectile::OnHit);
+
+    // Players can't walk on it
+    CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
+    CollisionComp->CanCharacterStepUpOn = ECB_No;
 
     // Creates root component
     RootComponent = CollisionComp;
@@ -31,7 +37,31 @@ AShootToKillProjectile::AShootToKillProjectile()
 
 void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+    AShootToKillEnemyCharacter* EnemyCharacter = Cast<AShootToKillEnemyCharacter>(OtherActor);
+    AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
+    if (OtherActor == EnemyCharacter)
+    {
+        EnemyCharacter->Hitpoints = EnemyCharacter->Hitpoints - 20;
+
+        Destroy();
+
+        if (EnemyCharacter->Hitpoints <= 0)
+        {
+            EnemyCharacter->Destroy();
+        }
+    }
+    else if(OtherActor == PlayerCharacter)
+    {
+        PlayerCharacter->Hitpoints = PlayerCharacter->Hitpoints - 20;
+
+        Destroy();
+
+        if (PlayerCharacter->Hitpoints <= 0)
+        {
+            
+        }
+    }
+    else if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
     {
         OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 

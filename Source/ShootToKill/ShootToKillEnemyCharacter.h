@@ -14,34 +14,13 @@ class SHOOTTOKILL_API AShootToKillEnemyCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
-	UHealthComponent* HealthComponent;
-
-	// Creates damage handler
-	UPROPERTY(EditAnywhere)
-	UDamageComponent* DamageComponent;
-
-	UFUNCTION(BlueprintCallable)
-	const bool IsAlive() const;
-
-	UFUNCTION(BlueprintCallable)
-	const float GetPlayersCurrentHealth() const;
-
 public:
 	// Sets default values for this character's properties
 	AShootToKillEnemyCharacter();
 
-	// Take damage component
-	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
-
-	UFUNCTION(BlueprintCallable, Category = "ShootToKill")
-	void SetDamage(float BaseDamage);
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	void OnDeath(bool IsFellOut);
 
 public:	
 	// Called every frame
@@ -49,5 +28,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	int Hitpoints = 100;
 
 };
