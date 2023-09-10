@@ -5,7 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "ShootToKillPlayerCharacter.h"
-#include "ShootToKillEnemyCharacter.h"
+#include "ShootToKillEnemyRiflemenCharacter.h"
 
 // Sets default values
 AShootToKillProjectile::AShootToKillProjectile()
@@ -37,8 +37,9 @@ AShootToKillProjectile::AShootToKillProjectile()
 
 void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    AShootToKillEnemyCharacter* EnemyCharacter = Cast<AShootToKillEnemyCharacter>(OtherActor);
+    AShootToKillEnemyRiflemenCharacter* EnemyCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
     AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
+
     if (OtherActor == EnemyCharacter)
     {
         EnemyCharacter->Hitpoints = EnemyCharacter->Hitpoints - 20;

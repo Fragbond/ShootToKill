@@ -4,19 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "ShootToKillEnemyCharacter.generated.h"
+#include "ShootToKillEnemyRiflemenCharacter.generated.h"
 
 class UDamageComponent;
 class UHealthComponent;
+class UInputComponent;
 
-UCLASS()
-class SHOOTTOKILL_API AShootToKillEnemyCharacter : public ACharacter
+UCLASS(config=Game)
+class SHOOTTOKILL_API AShootToKillEnemyRiflemenCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AShootToKillEnemyCharacter();
+	AShootToKillEnemyRiflemenCharacter();
+
+	// Creates behavior tree for enemy character
+	UPROPERTY(EditAnywhere, Category = "BehaviorTree")
+	class UBehaviorTree* BehaviorTree;
+
+	// Creates controller for enemy character
+	class AEnemyRiflemenController* EnemyRiflemenController;
 
 protected:
 	// Called when the game starts or when spawned

@@ -1,31 +1,33 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ShootToKillEnemyCharacter.h"
+#include "ShootToKillEnemyRiflemenCharacter.h"
+#include "EnemyRiflemenController.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 // Sets default values
-AShootToKillEnemyCharacter::AShootToKillEnemyCharacter()
+AShootToKillEnemyRiflemenCharacter::AShootToKillEnemyRiflemenCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
-void AShootToKillEnemyCharacter::BeginPlay()
+void AShootToKillEnemyRiflemenCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AShootToKillEnemyCharacter::Tick(float DeltaTime)
+void AShootToKillEnemyRiflemenCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Called to bind functionality to input
-void AShootToKillEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AShootToKillEnemyRiflemenCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
