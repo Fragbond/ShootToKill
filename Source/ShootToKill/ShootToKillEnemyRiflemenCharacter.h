@@ -39,4 +39,6 @@ public:
 
 	int Hitpoints = 100;
 
+	int RifeAmmo = 10;
+
 };

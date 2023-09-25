@@ -6,9 +6,6 @@
 #include "AIController.h"
 #include "EnemyRiflemenController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class SHOOTTOKILL_API AEnemyRiflemenController : public AAIController
 {

@@ -3,11 +3,13 @@
 
 #include "WeaponComponentRife.h"
 #include "ShootToKillPlayerCharacter.h"
+#include "ShootToKillEnemyRiflemenCharacter.h"
 #include "ShootToKillProjectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "EnemyRiflemenController.h"
 
 UWeaponComponentRife::UWeaponComponentRife()
 {
@@ -23,7 +25,6 @@ void UWeaponComponentRife::AttachWeapon(AShootToKillPlayerCharacter* TargetChara
 	{
 		return;
 	}
-
 	// Attachs the gun to the player model
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(PlayerCharacter->GetMesh(), AttachmentRules, FName(TEXT("WeaponGripSocket")));
@@ -43,6 +44,20 @@ void UWeaponComponentRife::AttachWeapon(AShootToKillPlayerCharacter* TargetChara
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UWeaponComponentRife::Fire);
 		}
 	}
+}
+
+void UWeaponComponentRife::AttachWeaponToAi(AShootToKillEnemyRiflemenCharacter* TargetCharacter)
+{
+	RiflemenCharacter = TargetCharacter;
+
+	if (RiflemenCharacter == nullptr)
+	{
+		return;
+	}
+
+	// Attachs the gun to the ai model
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	AttachToComponent(RiflemenCharacter->GetMesh(), AttachmentRules, FName(TEXT("WeaponGripSocket")));
 }
 
 void UWeaponComponentRife::Fire()
@@ -81,6 +96,36 @@ void UWeaponComponentRife::Fire()
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Your out of ammo."));
+	}
+}
+
+void UWeaponComponentRife::AiFire()
+{
+	if (RiflemenCharacter == nullptr || RiflemenCharacter->GetController() == nullptr)
+	{
+		return;
+	}
+
+	if (ProjectileClass != nullptr)
+	{
+		UWorld* const World = GetWorld();
+		if (World != nullptr)
+		{
+			AShootToKillEnemyRiflemenCharacter* AiPlayer = Cast<AShootToKillEnemyRiflemenCharacter>(RiflemenCharacter);
+			const FRotator SpawnRotation = AiPlayer->K2_GetActorRotation();
+
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+			World->SpawnActor<AShootToKillProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		}
+	}
+
+	if (FireSound != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, RiflemenCharacter->GetActorLocation());
 	}
 }
 
