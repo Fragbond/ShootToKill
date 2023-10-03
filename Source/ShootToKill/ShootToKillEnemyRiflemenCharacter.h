@@ -37,8 +37,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int Hitpoints = 100;
 
-	int RifeAmmo = 10;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int RifeAmmo;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	void PickupRifeAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupSmallHealthPack();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupBigHealthPack();
 
 };

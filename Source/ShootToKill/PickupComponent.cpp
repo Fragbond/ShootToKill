@@ -18,9 +18,16 @@ void UPickupComponent::BeginPlay()
 void UPickupComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AShootToKillPlayerCharacter* Character = Cast<AShootToKillPlayerCharacter>(OtherActor);
+	AShootToKillEnemyRiflemenCharacter* AiCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
 	if (Character != nullptr)
 	{
 		OnPickup.Broadcast(Character);
+
+		OnComponentBeginOverlap.RemoveAll(this);
+	}
+	else if (AiCharacter != nullptr)
+	{
+		OnAiPickup.Broadcast(AiCharacter);
 
 		OnComponentBeginOverlap.RemoveAll(this);
 	}

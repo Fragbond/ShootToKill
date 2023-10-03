@@ -32,3 +32,18 @@ void AShootToKillEnemyRiflemenCharacter::SetupPlayerInputComponent(UInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+void AShootToKillEnemyRiflemenCharacter::PickupRifeAmmo()
+{
+	RifeAmmo = RifeAmmo + 10;
+}
+
+void AShootToKillEnemyRiflemenCharacter::PickupSmallHealthPack()
+{
+	Hitpoints = Hitpoints + 20;
+}
+
+void AShootToKillEnemyRiflemenCharacter::PickupBigHealthPack()
+{
+	Hitpoints = Hitpoints + 100;
+}

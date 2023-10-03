@@ -63,6 +63,21 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	void PickupRifeAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupSmallHealthPack();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupBigHealthPack();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int Hitpoints = 100;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int RifeAmmo;
+
+	UFUNCTION()
+	void OnDeathTimerFinished();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -80,16 +95,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float TimeRestartLevelAfterDeath = 2.0f;
 
-	UFUNCTION()
-	void OnDeathTimerFinished();
-
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	int RifeAmmo;
-
-	int Hitpoints = 100;
 
 	USkeletalMeshComponent* GetMesh() const { return Mesh; }
 };

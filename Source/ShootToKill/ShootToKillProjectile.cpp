@@ -59,7 +59,7 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
         if (PlayerCharacter->Hitpoints <= 0)
         {
-            
+            PlayerCharacter->OnDeathTimerFinished();
         }
     }
     else if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
