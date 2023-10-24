@@ -2,6 +2,7 @@
 
 
 #include "PickupComponent.h"
+#include "ShootToKillPlayerCharacter.h"
 
 UPickupComponent::UPickupComponent()
 {
@@ -24,6 +25,7 @@ void UPickupComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCompo
 		OnPickup.Broadcast(Character);
 
 		OnComponentBeginOverlap.RemoveAll(this);
+
 	}
 	else if (AiCharacter != nullptr)
 	{

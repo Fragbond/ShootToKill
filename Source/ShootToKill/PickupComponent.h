@@ -16,6 +16,9 @@ class SHOOTTOKILL_API UPickupComponent : public USphereComponent
 {
 	GENERATED_BODY()
 	
+	// The character holding the weapon
+	AShootToKillPlayerCharacter* PlayerCharacter;
+
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")

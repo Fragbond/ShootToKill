@@ -36,6 +36,14 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
+	// Equip Rifle Action input
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* EquipRifleAction;
+
+	// Equip Pistol Action input
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* EquipPistolAction;
+
 	UFUNCTION(BlueprintCallable)
 	void IsAlive();
 
@@ -52,11 +60,26 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bHasRifle;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool bHasPistol;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool IsRifleEquip = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool IsPistolEquip = false;
+
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	void SetHasRifle(bool bNewHasRifle);
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void SetHasPistol(bool bNewHasPistol);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	bool GetHasPistol();
 
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* ParticleSystemComponent;
@@ -76,6 +99,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int RifeAmmo;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int PistolAmmo;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool HasRifle = false;
+
 	UFUNCTION()
 	void OnDeathTimerFinished();
 protected:
@@ -90,6 +119,9 @@ protected:
 	// Adds look input
 	void Look(const FInputActionValue& Value);
 
+	void EquipRifle(const FInputActionValue& Value);
+	void EquipPistol(const FInputActionValue& Value);
+
 	FTimerHandle RestartLevelTimerHandle;
 
 	UPROPERTY(EditAnywhere)
@@ -100,4 +132,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	USkeletalMeshComponent* GetMesh() const { return Mesh; }
+
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* PlayersRifle;
 };

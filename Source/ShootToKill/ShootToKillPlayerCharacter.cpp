@@ -8,6 +8,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "WeaponComponentRife.h"
+#include "WeaponComponentPistol.h"
+#include "PickupComponent.h"
 
 // Sets default values
 AShootToKillPlayerCharacter::AShootToKillPlayerCharacter()
@@ -46,6 +49,9 @@ void AShootToKillPlayerCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+		EnhancedInputComponent->BindAction(EquipRifleAction, ETriggerEvent::Triggered, this, &AShootToKillPlayerCharacter::EquipRifle);
+		EnhancedInputComponent->BindAction(EquipPistolAction, ETriggerEvent::Triggered, this, &AShootToKillPlayerCharacter::EquipPistol);
 	}
 }
 
@@ -73,6 +79,38 @@ void AShootToKillPlayerCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void AShootToKillPlayerCharacter::EquipRifle(const FInputActionValue& Value)
+{
+	if (Controller != nullptr)
+	{
+		if (bHasRifle == true)
+		{
+			IsRifleEquip = true;
+			IsPistolEquip = false;
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Don't have rifle."));
+		}
+	}
+}
+
+void AShootToKillPlayerCharacter::EquipPistol(const FInputActionValue& Value)
+{
+	if (Controller != nullptr)
+	{
+		if (bHasPistol == true)
+		{
+			IsRifleEquip = false;
+			IsPistolEquip = true;
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Don't have pistol."));
+		}
+	}
+}
+
 void AShootToKillPlayerCharacter::IsAlive()
 {
 	if (Hitpoints <= 0)
@@ -90,6 +128,16 @@ void AShootToKillPlayerCharacter::SetHasRifle(bool bNewHasRifle)
 bool AShootToKillPlayerCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void AShootToKillPlayerCharacter::SetHasPistol(bool bNewHasPistol)
+{
+	bHasPistol = bNewHasPistol;
+}
+
+bool AShootToKillPlayerCharacter::GetHasPistol()
+{
+	return bHasPistol;
 }
 
 void AShootToKillPlayerCharacter::OnDeath(bool IsFellOut)
