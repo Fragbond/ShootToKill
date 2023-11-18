@@ -87,6 +87,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	void PickupRifeAmmo();
 
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	void PickupPistolAmmo();
+
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void PickupSmallHealthPack();
 

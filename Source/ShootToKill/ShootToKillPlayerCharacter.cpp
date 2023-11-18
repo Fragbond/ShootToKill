@@ -160,6 +160,11 @@ void AShootToKillPlayerCharacter::PickupRifeAmmo()
 	RifeAmmo = RifeAmmo + 10;
 }
 
+void AShootToKillPlayerCharacter::PickupPistolAmmo()
+{
+	PistolAmmo = PistolAmmo + 10;
+}
+
 void AShootToKillPlayerCharacter::PickupSmallHealthPack()
 {
 	Hitpoints = Hitpoints + 20;

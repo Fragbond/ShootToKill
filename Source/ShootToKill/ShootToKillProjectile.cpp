@@ -28,11 +28,6 @@ AShootToKillProjectile::AShootToKillProjectile()
     ProjectileMovement->UpdatedComponent = CollisionComp;
     ProjectileMovement->InitialSpeed = 6000.f;
     ProjectileMovement->MaxSpeed = 6000.f;
-    ProjectileMovement->bRotationFollowsVelocity = true;
-    ProjectileMovement->bShouldBounce = true;
-
-    // Creates a life span of 3 seconds
-    InitialLifeSpan = 3.0f;
 }
 
 void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -62,10 +57,8 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             PlayerCharacter->OnDeathTimerFinished();
         }
     }
-    else if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+    else if ((OtherActor != nullptr))
     {
-        OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
         Destroy();
     }
 }
