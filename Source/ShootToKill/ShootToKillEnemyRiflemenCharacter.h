@@ -43,6 +43,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int RifeAmmo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool IsDead = false;
+
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	void PickupRifeAmmo();
 
@@ -51,5 +54,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void PickupBigHealthPack();
-
 };

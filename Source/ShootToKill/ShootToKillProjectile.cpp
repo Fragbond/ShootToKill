@@ -43,7 +43,7 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
         if (EnemyCharacter->Hitpoints <= 0)
         {
-            EnemyCharacter->Destroy();
+            EnemyCharacter->IsDead = true;
         }
     }
     else if(OtherActor == PlayerCharacter)
