@@ -32,23 +32,24 @@ AShootToKillProjectile::AShootToKillProjectile()
 
 void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    AShootToKillEnemyRiflemenCharacter* EnemyCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
-    AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
+   AShootToKillEnemyRiflemenCharacter* EnemyCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
+   AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
 
-    if (OtherActor == EnemyCharacter)
-    {
-        EnemyCharacter->Hitpoints = EnemyCharacter->Hitpoints - 20;
+   if (OtherActor == EnemyCharacter)
+   {
+       EnemyCharacter->Hitpoints = EnemyCharacter->Hitpoints - 25;
 
-        Destroy();
+       Destroy();
 
-        if (EnemyCharacter->Hitpoints <= 0)
-        {
-            EnemyCharacter->IsDead = true;
-        }
-    }
-    else if(OtherActor == PlayerCharacter)
-    {
-        PlayerCharacter->Hitpoints = PlayerCharacter->Hitpoints - 20;
+       if (EnemyCharacter->Hitpoints <= 0)
+       {
+           EnemyCharacter->IsDead = true;
+       }
+   }
+   else if(OtherActor == PlayerCharacter)
+   {
+    
+        PlayerCharacter->Hitpoints = PlayerCharacter->Hitpoints - 25;
 
         Destroy();
 
@@ -56,7 +57,7 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
         {
             PlayerCharacter->OnDeathTimerFinished();
         }
-    }
+   }
     else if ((OtherActor != nullptr))
     {
         Destroy();
