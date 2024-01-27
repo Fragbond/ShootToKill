@@ -8,6 +8,7 @@
 
 class AShootToKillPlayerCharacter;
 class AShootToKillEnemyRiflemenCharacter;
+class ASTKEnemySqaudLeaderRiflemen;
 class AEnemyRiflemenController;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,9 +31,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void PullOutRifle();
 
-	// Attaches the weapon to the player character
+	// Attaches the weapon to the Ai
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void AttachWeaponToAi(AShootToKillEnemyRiflemenCharacter* TargetCharacter);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void AttachWeaponToSquadLeaderRiflemen(ASTKEnemySqaudLeaderRiflemen* TargetCharacter);
 
 	// Makes the gun fire
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
@@ -67,6 +71,8 @@ private:
 
 	// Enemy riflemen ref
 	AShootToKillEnemyRiflemenCharacter* RiflemenCharacter;
+
+	ASTKEnemySqaudLeaderRiflemen* SqaudLeaderCharacter;
 
 protected:
 	// Ends gameplay for this component

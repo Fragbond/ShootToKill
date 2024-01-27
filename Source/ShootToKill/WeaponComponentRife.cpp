@@ -4,6 +4,7 @@
 #include "WeaponComponentRife.h"
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillEnemyRiflemenCharacter.h"
+#include "STKEnemySqaudLeaderRiflemen.h"
 #include "ShootToKillProjectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
@@ -100,6 +101,20 @@ void UWeaponComponentRife::AttachWeaponToAi(AShootToKillEnemyRiflemenCharacter* 
 	// Attachs the gun to the ai model
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(RiflemenCharacter->GetMesh(), AttachmentRules, FName(TEXT("WeaponGripSocket")));
+}
+
+void UWeaponComponentRife::AttachWeaponToSquadLeaderRiflemen(ASTKEnemySqaudLeaderRiflemen* TargetCharacter)
+{
+	SqaudLeaderCharacter = TargetCharacter;
+
+	if (SqaudLeaderCharacter == nullptr)
+	{
+		return;
+	}
+
+	// Attachs the gun to the ai model
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	AttachToComponent(SqaudLeaderCharacter->GetMesh(), AttachmentRules, FName(TEXT("WeaponGripSocket")));
 }
 
 void UWeaponComponentRife::Fire()
