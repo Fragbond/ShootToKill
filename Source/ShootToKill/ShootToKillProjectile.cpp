@@ -6,6 +6,7 @@
 #include "Components/SphereComponent.h"
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillEnemyRiflemenCharacter.h"
+#include "STKEnemySqaudLeaderRiflemen.h"
 
 // Sets default values
 AShootToKillProjectile::AShootToKillProjectile()
@@ -34,6 +35,7 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 {
    AShootToKillEnemyRiflemenCharacter* EnemyCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
    AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
+   ASTKEnemySqaudLeaderRiflemen* EnemySquadLeaderRM = Cast<ASTKEnemySqaudLeaderRiflemen>(OtherActor);
 
    if (OtherActor == EnemyCharacter)
    {
@@ -44,6 +46,17 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
        if (EnemyCharacter->Hitpoints <= 0)
        {
            EnemyCharacter->IsDead = true;
+       }
+   }
+   else if (OtherActor == EnemySquadLeaderRM)
+   {
+       EnemySquadLeaderRM->Hitpoints = EnemySquadLeaderRM->Hitpoints - 25;
+
+       Destroy();
+
+       if (EnemySquadLeaderRM->Hitpoints <= 0)
+       {
+           EnemySquadLeaderRM->IsDead = true;
        }
    }
    else if(OtherActor == PlayerCharacter)
