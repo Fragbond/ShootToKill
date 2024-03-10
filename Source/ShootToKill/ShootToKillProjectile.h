@@ -10,6 +10,7 @@ class USphereComponent;
 class UProjectileMovementComponent;
 class AShootToKillPlayerCharacter;
 class AShootToKillEnemyCharacter;
+class ASTKSquadLeaderCharacter;
 
 UCLASS(config=Game)
 class SHOOTTOKILL_API AShootToKillProjectile : public AActor

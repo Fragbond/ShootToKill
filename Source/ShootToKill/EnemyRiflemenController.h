@@ -26,4 +26,3 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = Blackboard)
 	class UBlackboardComponent* BlackboardComponent;
 };
-// Note to self look at pawn senseing for squad leader.

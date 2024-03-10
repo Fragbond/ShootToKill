@@ -4,15 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "SquadLeaderRiflemenController.generated.h"
+#include "STKSquadLeaderController.generated.h"
+
 
 UCLASS()
-class SHOOTTOKILL_API ASquadLeaderRiflemenController : public AAIController
+class SHOOTTOKILL_API ASTKSquadLeaderController : public AAIController
 {
 	GENERATED_BODY()
-
+	
 public:
-	ASquadLeaderRiflemenController();
+	ASTKSquadLeaderController();
 
 	UBlackboardComponent* GetBlackboard();
 
@@ -25,5 +26,4 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = Blackboard)
 	class UBlackboardComponent* BlackboardComponent;
-	
 };

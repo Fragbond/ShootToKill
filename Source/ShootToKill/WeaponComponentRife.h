@@ -35,9 +35,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void AttachWeaponToAi(AShootToKillEnemyRiflemenCharacter* TargetCharacter);
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void AttachWeaponToSquadLeaderRiflemen(ASTKEnemySqaudLeaderRiflemen* TargetCharacter);
-
 	// Makes the gun fire
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Fire();

@@ -4,36 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "STKEnemySqaudLeaderRiflemen.generated.h"
+#include "STKSquadLeaderCharacter.generated.h"
 
 class UDamageComponent;
 class UHealthComponent;
 class UInputComponent;
 
-UCLASS(config = Game)
-class SHOOTTOKILL_API ASTKEnemySqaudLeaderRiflemen : public ACharacter
+UCLASS()
+class SHOOTTOKILL_API ASTKSquadLeaderCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	ASTKEnemySqaudLeaderRiflemen();
+	ASTKSquadLeaderCharacter();
 
-	// Creates behavior tree for Ai Sqaud leader
 	UPROPERTY(EditAnywhere, Category = "BehaviorTree")
 	class UBehaviorTree* BehaviorTree;
 
-	// Creates arrays for follow points
-	UPROPERTY(EditAnywhere, Category = "FollowPoints", Meta = (MakeEditWidget))
-	TArray<FVector> FollowPoints;
-
-	// Creates controller for enemy squad leader
-	class ASTKEnemySquadLeaderRiflemenController* ASquadLeaderRiflemenController;
-
-private: 
-	TArray<FVector> WorldFollowPoints;
-
-	int CurrentPointsIndex = 3;
+	class ASTKSquadLeaderController* STKSquadLeaderController;
 
 protected:
 	// Called when the game starts or when spawned
@@ -47,20 +36,20 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	int Hitpoints = 100;
+	int Hitpoints = 125;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int RifeAmmo;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int RifleAmmo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsDead = false;
-
-	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	void PickupRifeAmmo();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void PickupSmallHealthPack();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void PickupBigHealthPack();
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	void PickupRifleAmmo();
 };
