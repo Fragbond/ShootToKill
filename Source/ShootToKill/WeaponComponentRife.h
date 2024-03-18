@@ -43,9 +43,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Fire();
 
-	// Makes Ai fire the gun
+	// Makes Ai Riflemen fire the gun
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void AiFire();
+
+	// Makes Ai SquadLeader fire the gun
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void AiSquadLeaderFire();
 
 	// Gets guns muzzle location from the characters location
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)

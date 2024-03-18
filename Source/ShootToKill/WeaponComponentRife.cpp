@@ -166,7 +166,7 @@ void UWeaponComponentRife::AiFire()
 	}
 
 	if (RiflemenCharacter->RifeAmmo > 0)
-	{
+	{	
 		if (ProjectileClass != nullptr)
 		{
 			UWorld* const World = GetWorld();
@@ -189,6 +189,44 @@ void UWeaponComponentRife::AiFire()
 			UGameplayStatics::PlaySoundAtLocation(this, FireSound, RiflemenCharacter->GetActorLocation());
 		}
 		RiflemenCharacter->RifeAmmo--;
+	}
+	else
+	{
+
+	}
+}
+
+void UWeaponComponentRife::AiSquadLeaderFire()
+{
+	if (SquadLeaderCharacter == nullptr || SquadLeaderCharacter->GetController() == nullptr)
+	{
+		return;
+	}
+
+	if (SquadLeaderCharacter->RifleAmmo > 0)
+	{
+		if (ProjectileClass != nullptr)
+		{
+			UWorld* const World = GetWorld();
+			if (World != nullptr)
+			{
+				ASTKSquadLeaderCharacter* AiPlayer = Cast<ASTKSquadLeaderCharacter>(SquadLeaderCharacter);
+				const FRotator SpawnRotation = AiPlayer->K2_GetActorRotation();
+
+				const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				World->SpawnActor<AShootToKillProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			}
+		}
+
+		if (FireSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, FireSound, SquadLeaderCharacter->GetActorLocation());
+		}
+		SquadLeaderCharacter->RifleAmmo--;
 	}
 	else
 	{

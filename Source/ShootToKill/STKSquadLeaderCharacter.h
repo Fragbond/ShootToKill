@@ -38,10 +38,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int Hitpoints = 125;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int RifleAmmo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool IsDead = false;
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
