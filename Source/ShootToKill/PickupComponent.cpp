@@ -20,6 +20,7 @@ void UPickupComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCompo
 {
 	AShootToKillPlayerCharacter* Character = Cast<AShootToKillPlayerCharacter>(OtherActor);
 	AShootToKillEnemyRiflemenCharacter* AiCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
+	ASTKSquadLeaderCharacter* SquadLeaderCharacter = Cast<ASTKSquadLeaderCharacter>(OtherActor);
 	if (Character != nullptr)
 	{
 		OnPickup.Broadcast(Character);
@@ -30,6 +31,12 @@ void UPickupComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCompo
 	else if (AiCharacter != nullptr)
 	{
 		OnAiPickup.Broadcast(AiCharacter);
+
+		OnComponentBeginOverlap.RemoveAll(this);
+	}
+	else if (SquadLeaderCharacter != nullptr)
+	{
+		OnSquadLeaderPickup.Broadcast(SquadLeaderCharacter);
 
 		OnComponentBeginOverlap.RemoveAll(this);
 	}
