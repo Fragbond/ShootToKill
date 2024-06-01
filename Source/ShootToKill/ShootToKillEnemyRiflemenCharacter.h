@@ -43,7 +43,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int RifeAmmo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool IsDead = false;
 
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
