@@ -17,14 +17,6 @@ ASTKSquadLeaderCharacter::ASTKSquadLeaderCharacter()
 void ASTKSquadLeaderCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ASTKSquadLeaderCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

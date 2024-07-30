@@ -2,6 +2,7 @@
 
 
 #include "ShootToKillEnemyRiflemenCharacter.h"
+#include "STKSquadLeaderCharacter.h"
 #include "EnemyRiflemenController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
