@@ -1,7 +1,0 @@
-1.) Rework on squad leader
-
-2.) Make a Sniper Ai.
-
-3.) Make a Riot Control Ai.
-
-4.) Make a Assassin Ai.

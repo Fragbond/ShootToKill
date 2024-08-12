@@ -9,7 +9,7 @@
 class AShootToKillPlayerCharacter;
 class AShootToKillEnemyRiflemenCharacter;
 class ASTKSquadLeaderCharacter;
-class AEnemyRiflemenController;
+
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTTOKILL_API UWeaponComponentRife : public USkeletalMeshComponent

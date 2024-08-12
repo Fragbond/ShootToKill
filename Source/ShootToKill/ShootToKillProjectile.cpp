@@ -11,7 +11,7 @@
 // Sets default values
 AShootToKillProjectile::AShootToKillProjectile()
 {
-    // Creates sphere for the projectile. NOTE: change this later.
+    // Creates sphere for the projectile.
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
     CollisionComp->InitSphereRadius(5.0f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");

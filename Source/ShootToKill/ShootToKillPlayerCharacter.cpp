@@ -53,6 +53,7 @@ void AShootToKillPlayerCharacter::SetupPlayerInputComponent(UInputComponent* Pla
 
 		EnhancedInputComponent->BindAction(EquipRifleAction, ETriggerEvent::Triggered, this, &AShootToKillPlayerCharacter::EquipRifle);
 		EnhancedInputComponent->BindAction(EquipPistolAction, ETriggerEvent::Triggered, this, &AShootToKillPlayerCharacter::EquipPistol);
+		EnhancedInputComponent->BindAction(EquipSniperAction, ETriggerEvent::Triggered, this, &AShootToKillPlayerCharacter::EquipSniper);
 	}
 }
 
@@ -88,6 +89,7 @@ void AShootToKillPlayerCharacter::EquipRifle(const FInputActionValue& Value)
 		{
 			IsRifleEquip = true;
 			IsPistolEquip = false;
+			IsSniperEquip = false;
 		}
 		else
 		{
@@ -104,6 +106,24 @@ void AShootToKillPlayerCharacter::EquipPistol(const FInputActionValue& Value)
 		{
 			IsRifleEquip = false;
 			IsPistolEquip = true;
+			IsSniperEquip = false;
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Don't have pistol."));
+		}
+	}
+}
+
+void AShootToKillPlayerCharacter::EquipSniper(const FInputActionValue& Value)
+{
+	if (Controller != nullptr)
+	{
+		if (bHasSniper == true)
+		{
+			IsRifleEquip = false;
+			IsPistolEquip = false;
+			IsSniperEquip = true;
 		}
 		else
 		{
@@ -139,6 +159,16 @@ void AShootToKillPlayerCharacter::SetHasPistol(bool bNewHasPistol)
 bool AShootToKillPlayerCharacter::GetHasPistol()
 {
 	return bHasPistol;
+}
+
+void AShootToKillPlayerCharacter::SetHasSniper(bool bNewHasSniper)
+{
+	bHasSniper = bNewHasSniper;
+}
+
+bool AShootToKillPlayerCharacter::GetHasSniper()
+{
+	return bHasSniper;
 }
 
 void AShootToKillPlayerCharacter::OnDeath(bool IsFellOut)

@@ -44,6 +44,9 @@ class SHOOTTOKILL_API AShootToKillPlayerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* EquipPistolAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* EquipSniperAction;
+
 	UFUNCTION(BlueprintCallable)
 	void IsAlive();
 
@@ -64,10 +67,16 @@ public:
 	bool bHasPistol;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool bHasSniper;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool IsRifleEquip = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool IsPistolEquip = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	bool IsSniperEquip = false;
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	void SetHasRifle(bool bNewHasRifle);
@@ -80,6 +89,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	bool GetHasPistol();
+
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+	void SetHasSniper(bool bNewHasSniper);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	bool GetHasSniper();
 
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* ParticleSystemComponent;
@@ -108,6 +123,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool HasRifle = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool HasSniper = false;
+
 	UFUNCTION()
 	void OnDeathTimerFinished();
 protected:
@@ -124,6 +142,7 @@ protected:
 
 	void EquipRifle(const FInputActionValue& Value);
 	void EquipPistol(const FInputActionValue& Value);
+	void EquipSniper(const FInputActionValue& Value);
 
 	FTimerHandle RestartLevelTimerHandle;
 

@@ -5,6 +5,7 @@
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillEnemyRiflemenCharacter.h"
 #include "STKSquadLeaderCharacter.h"
+#include "STKSniper.h"
 #include "ShootToKillProjectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
