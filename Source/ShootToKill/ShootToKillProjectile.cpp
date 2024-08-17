@@ -7,6 +7,7 @@
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillEnemyRiflemenCharacter.h"
 #include "STKSquadLeaderCharacter.h"
+#include "STKSniper.h"
 
 // Sets default values
 AShootToKillProjectile::AShootToKillProjectile()
@@ -36,6 +37,7 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
    AShootToKillEnemyRiflemenCharacter* EnemyCharacter = Cast<AShootToKillEnemyRiflemenCharacter>(OtherActor);
    AShootToKillPlayerCharacter* PlayerCharacter = Cast<AShootToKillPlayerCharacter>(OtherActor);
    ASTKSquadLeaderCharacter* SquadLeaderCharacter = Cast<ASTKSquadLeaderCharacter>(OtherActor);
+   ASTKSniper* SniperCharacter = Cast<ASTKSniper>(OtherActor);
 
    if (OtherActor == EnemyCharacter)
    {
@@ -57,6 +59,17 @@ void AShootToKillProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
        if (SquadLeaderCharacter->Hitpoints <= 0)
        {
            SquadLeaderCharacter->IsDead = true;
+       }
+   }
+   else if (OtherActor == SniperCharacter)
+   {
+       SniperCharacter->Hitpoints = SniperCharacter->Hitpoints - 25;
+
+       Destroy();
+
+       if (SniperCharacter->Hitpoints <= 0)
+       {
+           SniperCharacter->IsDead = true;
        }
    }
    else if(OtherActor == PlayerCharacter)

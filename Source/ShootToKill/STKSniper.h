@@ -15,6 +15,10 @@ public:
 	// Sets default values for this character's properties
 	ASTKSniper();
 
+	// Creates the behavior tree for the character
+	UPROPERTY(EditAnywhere, Category = "BehaviorTree")
+	class UBehaviorTree* BehaviorTree;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

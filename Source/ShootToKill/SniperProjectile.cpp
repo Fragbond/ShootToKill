@@ -12,20 +12,21 @@
 // Sets default values
 ASniperProjectile::ASniperProjectile()
 {
+	// Creates sphere for the sniper projectile.
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
 	CollisionComp->OnComponentHit.AddDynamic(this, &ASniperProjectile::OnHit);
-
+	// Makes is so the player can't walk on the projectile.
 	CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
 	CollisionComp->CanCharacterStepUpOn = ECB_No;
-
+	// Creates the root component.
 	RootComponent = CollisionComp;
-
+	// Govern the projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 6700.f;
-	ProjectileMovement->MaxSpeed = 6700.f;
+	ProjectileMovement->InitialSpeed = 6000.f;
+	ProjectileMovement->MaxSpeed = 6000.f;
 }
 
 void ASniperProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
