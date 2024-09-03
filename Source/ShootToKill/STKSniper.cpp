@@ -32,3 +32,17 @@ void ASTKSniper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+void ASTKSniper::PickupRifeAmmo()
+{
+	RifeAmmo = RifeAmmo + 10;
+}
+
+void ASTKSniper::PickupSmallHealthPack()
+{
+	Hitpoints = Hitpoints + 20;
+}
+
+void ASTKSniper::PickupBigHealthPack()
+{
+	Hitpoints = Hitpoints + 100;
+}

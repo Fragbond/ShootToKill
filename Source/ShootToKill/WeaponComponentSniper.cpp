@@ -139,43 +139,43 @@ void UWeaponComponentSniper::Fire()
 	}
 }
 
-//void UWeaponComponentSniper::SniperFire()
-//{
-//	if (Sniper == nullptr || Sniper->GetController() == nullptr)
-//	{
-//		return;
-//	}
-//
-//	if (Sniper->RifeAmmo > 0)
-//	{
-//		if (ProjectileClass != nullptr)
-//		{
-//			UWorld* const World = GetWorld();
-//			if (World != nullptr)
-//			{
-//				ASTKSniper* AiPlayer = Cast<ASTKSniper>(Sniper);
-//				const FRotator SpawnRotation = AiPlayer->K2_GetActorRotation();
-//
-//				const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-//
-//				FActorSpawnParameters ActorSpawnParams;
-//				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-//
-//				World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-//			}
-//		}
-//
-//		if (FireSound != nullptr)
-//		{
-//			UGameplayStatics::PlaySoundAtLocation(this, FireSound, Sniper->GetActorLocation());
-//		}
-//		Sniper->RifeAmmo--;
-//	}
-//	else
-//	{
-//
-//	}
-//}
+void UWeaponComponentSniper::SniperFire()
+{
+	if (Sniper == nullptr || Sniper->GetController() == nullptr)
+	{
+		return;
+	}
+
+	if (Sniper->RifeAmmo > 0)
+	{
+		if (SniperProjectileClass != nullptr)
+		{
+			UWorld* const World = GetWorld();
+			if (World != nullptr)
+			{
+				ASTKSniper* AiPlayer = Cast<ASTKSniper>(Sniper);
+				const FRotator SpawnRotation = AiPlayer->K2_GetActorRotation();
+
+				const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				World->SpawnActor<ASniperProjectile>(SniperProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			}
+		}
+
+		if (FireSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, FireSound, Sniper->GetActorLocation());
+		}
+		Sniper->RifeAmmo--;
+	}
+	else
+	{
+
+	}
+}
 
 void UWeaponComponentSniper::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {

@@ -19,6 +19,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "BehaviorTree")
 	class UBehaviorTree* BehaviorTree;
 
+	class ASTKSniper* SniperController;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,4 +37,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool IsDead = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int RifeAmmo;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	void PickupRifeAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupSmallHealthPack();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void PickupBigHealthPack();
 };

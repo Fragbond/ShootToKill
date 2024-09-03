@@ -7,11 +7,13 @@
 #include "ShootToKillPlayerCharacter.h"
 #include "ShootToKillEnemyRiflemenCharacter.h"
 #include "STKSquadLeaderCharacter.h"
+#include "STKSniper.h"
 #include "PickupComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickUp, AShootToKillPlayerCharacter*, PickupCharacter);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAiOnPickUp, AShootToKillEnemyRiflemenCharacter*, AiPickupCharacter);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSquadLeaderPickup, ASTKSquadLeaderCharacter*, SquadLeaderCharacter);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSniperPickup, ASTKSniper*, SniperCharacter);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTOKILL_API UPickupComponent : public USphereComponent
@@ -31,6 +33,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnSquadLeaderPickup OnSquadLeaderPickup;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnSniperPickup OnSniperPickup;
 
 	UPickupComponent();
 protected:

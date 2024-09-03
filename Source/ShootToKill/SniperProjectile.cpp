@@ -25,8 +25,8 @@ ASniperProjectile::ASniperProjectile()
 	// Govern the projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 6000.f;
-	ProjectileMovement->MaxSpeed = 6000.f;
+	ProjectileMovement->InitialSpeed = 7000.f;
+	ProjectileMovement->MaxSpeed = 7000.f;
 }
 
 void ASniperProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

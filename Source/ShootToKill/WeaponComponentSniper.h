@@ -39,8 +39,8 @@ public:
 	void Fire();
 
 	// Makes Ai Riflemen fire the gun
-	//UFUNCTION(BlueprintCallable, Category = "Weapon")
-	//void SniperFire();
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void SniperFire();
 
 	// Gets guns muzzle location from the characters location
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
