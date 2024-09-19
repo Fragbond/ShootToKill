@@ -71,6 +71,8 @@ void ASniperProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	}
 	else if (OtherActor == Player)
 	{
+		Player->Hitpoints = Player->Hitpoints - 45;
+
 		Destroy();
 
 		if (Player->Hitpoints <= 0)
